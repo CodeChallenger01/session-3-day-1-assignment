@@ -8,14 +8,14 @@ class Bank {
 
   //Method is used to create the new Account
   def createAccount(openingBalance: Double): Map[Long, Double] = {
-    val accountNumber = Random.between(minInclusive = 231289128912L, maxExclusive = 988756987654L)
-    val accounts = Map(accountNumber -> openingBalance)
+    val accountNumber: Long = Random.between(minInclusive = 231289128912L, maxExclusive = 988756987654L)
+    val accounts: Map[Long, Double] = Map(accountNumber -> openingBalance)
     accounts
   }
 
   // This method is used for creating multiple account and inside it we call the above method
   def newAccountsCreation(numberOfAccounts: Int, acc: Map[Long, Double]): Map[Long, Double] = {
-    val openingBalance = readLine("Enter the Amount of opening Balance greater than 1000 :").toDouble
+    val openingBalance: Double = readLine("Enter the Amount of opening Balance greater than 1000 :").toDouble
     try {
       if (openingBalance.isNaN) {
         throw new NumberFormatException("Invalid Number")
@@ -39,7 +39,7 @@ class Bank {
     try {
       if (accountDetails.isEmpty) throw new NullPointerException("No Account Exists in the List")
       else {
-        val accountList = accountDetails
+        val accountList: Map[Long, Double] = accountDetails
         accountList
       }
     }
@@ -52,8 +52,8 @@ class Bank {
   def fetchAccountBalance(accountNumber: Long, accountDetail: Map[Long, Double]): Double = {
     if (accountDetail.isEmpty) 0.0
     else if (accountDetail.contains(accountNumber)) {
-      val balance = accountDetail(accountNumber)
-      val balanceFormat = f"$balance%.4f"
+      val balance: Double = accountDetail(accountNumber)
+      val balanceFormat: String = f"$balance%.4f"
       balanceFormat.toDouble
     }
     else 0.0
@@ -63,8 +63,8 @@ class Bank {
   //This method is used to delete the account
   def deleteAccount(accountNumber: Long, accountDetails: Map[Long, Double]): Boolean = {
     if (accountDetails.contains(accountNumber)) {
-      val updatedAccount = accountDetails.removed(accountNumber)
-      println("Account After Deleted\n"+updatedAccount)
+      val updatedAccount: Map[Long, Double] = accountDetails.removed(accountNumber)
+      println("Account After Deleted\n" + updatedAccount)
       true
     }
     else false
@@ -73,7 +73,7 @@ class Bank {
   //This method is used to update the balance after the transactions
   def updateBalance(transactions: List[Transactions], accountDetail: Map[Long, Double]): Map[Long, Double] = {
     val accountBalance = transactions.map(transaction => {
-      val balance = accountDetail.getOrElse(transaction.accountNumber, 0.0)
+      val balance: Double = accountDetail.getOrElse(transaction.accountNumber, 0.0)
       val updateBalance = transaction.transactionType.toLowerCase match {
         case "credit" => balance + transaction.amount
         case "debit" => balance - transaction.amount
@@ -92,31 +92,31 @@ object BankingApplication extends App {
   val accounts: Map[Long, Double] = Map()
 
   //  To Create multiple  Account
-  val accountDetails = bankApp.newAccountsCreation(numberOfAccounts, accounts)
+  val accountDetails: Map[Long, Double] = bankApp.newAccountsCreation(numberOfAccounts, accounts)
   println("\n1.After Creating Account:\n" + accountDetails)
 
   //To view the AccountList
-  val accountsList = bankApp.listAccounts(accountDetails)
+  val accountsList: Map[Long, Double] = bankApp.listAccounts(accountDetails)
   println("\n2.List of All the Accounts are :     \n" + accountsList)
 
   //To access the Amount of particular Customer
-  val accountNumberList = accountDetails.keys.toList
+  val accountNumberList: List[Long] = accountDetails.keys.toList
   println("\n3.Enter 1,2 as per order to fetch the account balance from given List \n" + accountNumberList)
 
-  val fetchAccount = readLine("Select the above order to show account Balance from 1 to shown list number   :").toInt
+  val fetchAccount: Int = readLine("Select the above order to show account Balance from 1 to shown list number   :").toInt
   val accountBalance: Double = bankApp.fetchAccountBalance(accountNumberList(fetchAccount - 1), accountDetails)
   println("Your account balance is   :" + accountBalance)
 
   //Transactions Operation
-  val transactions = List(
+  val transactions: List[Transactions] = List(
     Transactions(3l, accountNumberList(0), "Credit", 12000.0),
-    Transactions(3l, accountNumberList(0), "Debit", 1000.0)
+    Transactions(4l, accountNumberList(0), "Debit", 1000.0)
   )
-  val balanceAfterTransactions = bankApp.updateBalance(transactions, accountDetails)
+  val balanceAfterTransactions: Map[Long, Double] = bankApp.updateBalance(transactions, accountDetails)
   println("\n4.List of the Account After Updating balance :\n" + balanceAfterTransactions)
 
   //  To delete the Account
-  val orderOfAccountToDelete = readLine("\nSelect the above sequence order to delete account Balance : ").toInt
+  val orderOfAccountToDelete: Int = readLine("\nSelect the above sequence order to delete account Balance : ").toInt
   try {
     if ((orderOfAccountToDelete) < 0) throw new ArrayIndexOutOfBoundsException()
     else {
