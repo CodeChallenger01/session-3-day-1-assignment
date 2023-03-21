@@ -5,9 +5,9 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 class BankApplicationTest extends AnyFlatSpec with Matchers {
   val accounts: Map[Long, Double] = Map()
   val bankApp = new Bank
-  val accountDetails = accounts ++ bankApp.createAccount(15000) ++ bankApp.createAccount(14000)
-  val listOfAccountNumber = accountDetails.keys.toList
-  val listOfAccounts = accountDetails.values.toList
+  val accountDetails: Map[Long, Double] = accounts ++ bankApp.createAccount(15000) ++ bankApp.createAccount(14000)
+  val listOfAccountNumber: List[Long] = accountDetails.keys.toList
+  val listOfAccounts: List[Double] = accountDetails.values.toList
 
   //To check with empty account
   "Empty Account" should "match when we check with empty account" in {
